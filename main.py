@@ -4,6 +4,9 @@ biblioteca_cartas = []
 class Carta():
     
 
+Há algum fator de repetição(replay)?
+    ->Cartas Serão geradas aleatoriamente
+    -> A cada vitoria o jogador receberar uma quantidade de gemas que poderar usar para gerar novas cartas.
 
     def __init__(self, nome, poder, vida, efeito, arte):
         self.nome   = nome
@@ -16,10 +19,8 @@ class Carta():
     def __str__(self):
         return f'\nCarta {self.nome} \nPoder:{self.poder}\nVida:{self.vida}\nEfeito:\n"{self.efeito}"'
 
-#espada=Carta('espada', 2, 0, 'ataca', 'arte.png')
-
-def montar_deck(deck):
-    
+        
+def montar_deck(deck):    
     for carta in range(deck):
         nomes=["Cavaleiro ", "Duque ", "Menestrel ", "Heroi", "Bandido", "Paladino", "Justiceiro", "Lorde", "Guarda", "Arqueiro", "Rei"]
         nomesii=["do Abismo", "do vale dourado", "Celestial", "Abissal", "de Novanoite", "de Centiluz", "das Nove Fogueiras"]
