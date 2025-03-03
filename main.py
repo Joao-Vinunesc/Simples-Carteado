@@ -75,14 +75,29 @@ class Batalha():
         return carta
 
     def fase_invocar(self, mao, campo):
-        while True:
-            if len(mao) > 0:    
-                selecao=int(input('jogue uma carta:\n'))
-                carta=mao[selecao-1]
-                mao.remove(carta)
-                campo.append(carta)
-            elif len(mao) == 0:
+        i=True
+        
+        while i==True:
+            #enquanto houver cartas para jogar:
+            if len(mao) > 0:   
+                escolha=input('Jogar carta no campo?\n 1-SIM\n2-NÃO - encerrar turno')
+                if escolha == "1":
+                    selecao=int(input('jogue uma carta:\n'))
+                    carta=mao[selecao-1]
+                    mao.remove(carta)
+                    campo.append(carta)
+                else:
+                    print("Encerrando fase de invocação, continuando o jogo...")
+                    i=False   
+            else:
                 print('não há cartas para jogar') 
+                break
+
+            
+                      
+
+
+                
 
     def fase_ataque(self, campo):
         atacou=[]
@@ -91,7 +106,7 @@ class Batalha():
 
             while True:
                 if len(campo) == 0: 
-                    print('não há cartas para jogar')
+                    print('não há cartas no campo para jogar')
                     break
                 print('CAMPO')
                 batalha.mostrar_cartas(campo)
@@ -145,10 +160,7 @@ def montar_deck():
         selecao=random.choice(biblioteca_cartas)
         deck_p2.append(selecao)
     return deck_p1, deck_p2
-   
-
-
-        
+       
 montar_biblioteca(10)
 deck_p1, deck_p2 = montar_deck()
 
