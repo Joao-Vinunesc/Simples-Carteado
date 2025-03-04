@@ -21,7 +21,7 @@ Há algum fator de repetição(replay)?
 
 '''
 import random
-
+import os
 biblioteca_cartas = []
 
 class Carta():
@@ -75,12 +75,11 @@ class Batalha():
         return carta
 
     def fase_invocar(self, mao, campo):
-        i=True
-        
+        i=True        
         while i==True:
             #enquanto houver cartas para jogar:
             if len(mao) > 0:   
-                escolha=input('Jogar carta no campo?\n 1-SIM\n2-NÃO - encerrar turno')
+                escolha=input('Jogar carta no campo?\n1-SIM\n2-NÃO - encerrar turno')
                 if escolha == "1":
                     selecao=int(input('jogue uma carta:\n'))
                     carta=mao[selecao-1]
@@ -91,16 +90,10 @@ class Batalha():
                     i=False   
             else:
                 print('não há cartas para jogar') 
-                break
-
-            
-                      
-
-
-                
+                i=False
 
     def fase_ataque(self, campo):
-        atacou=[]
+        ataque=[]
         
         if len(campo) > 0:           
 
@@ -111,22 +104,21 @@ class Batalha():
                 print('CAMPO')
                 batalha.mostrar_cartas(campo)
                 print('ATAQUE:')
-                batalha.mostrar_cartas(atacou)
+                batalha.mostrar_cartas(ataque)
                 selecao=int(input(f'selecione uma carta do CAMPO para atacar:\n'))
                 carta=campo[selecao-1]
                 campo.remove(carta)
-                atacou.append(carta)
+                ataque.append(carta)
                 escolha=input("Confinuar o ataque?\n1-SIM\n2-NÃO")
                 if escolha==2:
                     break
                 else:
-                    continue
-                
-
-
-
+                    
         else:
             print('não há cartas para jogar')
+      
+    def ataque_carta():
+        pass    
     def rodada(deck):
         pass
     
@@ -135,6 +127,12 @@ class Batalha():
         for carta in local:
             print(f'{i}- {carta.nome} \n|{carta.poder}||{carta.vida}||{carta.efeito}|\n')
             i+=1
+
+def exibir_campo(campo):
+    print(f'----------------------------')
+    print(f'-[carta]-'* len(campo))
+    print(f'----------------------------')
+
 
 def montar_biblioteca(limite_deck):    
     for carta in range(limite_deck):
@@ -160,24 +158,38 @@ def montar_deck():
         selecao=random.choice(biblioteca_cartas)
         deck_p2.append(selecao)
     return deck_p1, deck_p2
-       
+
+def limpar_tela():
+    # Verifica o sistema operacional e executa o comando correspondente
+    input("")
+    if os.name == 'nt':  # Windows
+        os.system('cls')
+    else:  # Linux ou macOS
+        os.system('clear')
+
+
+#CRIAÇÃO DA BASE DE CARTAS ALEATORIAS#
 montar_biblioteca(10)
 deck_p1, deck_p2 = montar_deck()
+#------------------------------------#
 
-
-#print(biblioteca_cartas)
-
+#----------TESTE DE BATALHA----------#
 
 i=True
 batalha=Batalha(deck_p1, deck_p2)
+
 while i ==True:    
-    print(batalha.vida_p1)
-    print(batalha.vida_p2)
     batalha.fase_compra(batalha.deck_p1, batalha.mao_p1)
+ 
     batalha.mostrar_cartas(batalha.mao_p1)
+ 
     batalha.fase_invocar(batalha.mao_p1, batalha.campo_p1)
+   
+    exibir_campo(batalha.campo_p1)
     batalha.mostrar_cartas(batalha.campo_p1)
     batalha.fase_ataque(batalha.campo_p1)
+    
+    i = False
 
 
     #for carta in batalha.mao_p1:
@@ -189,5 +201,5 @@ while i ==True:
 
 
 
-    i = False
+ 
 
