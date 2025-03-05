@@ -98,21 +98,37 @@ class Batalha():
         if len(campo) > 0:           
 
             while True:
+
+
                 if len(campo) == 0: 
                     print('não há cartas no campo para jogar')
                     break
-                print('CAMPO')
-                batalha.mostrar_cartas(campo)
-                print('ATAQUE:')
-                batalha.mostrar_cartas(ataque)
-                selecao=int(input(f'selecione uma carta do CAMPO para atacar:\n'))
+
+                selecao=int(input(f'\nselecione uma carta do CAMPO para atacar:\n'))
                 carta=campo[selecao-1]
                 campo.remove(carta)
                 ataque.append(carta)
-                escolha=input("Confinuar o ataque?\n1-SIM\n2-NÃO")
+
+                limpar_tela()
+                escolha=input("confirmar o ataque?\n1-SIM\n2-NÃO")
                 if escolha==2:
                     break
                 else:
+                    return ataque
+
+    def calculo_dano(self, ataques, defesas):
+        
+        if defesas is None:
+            print("não há cartas")
+
+        for carta_atk, carta_def in zip(ataques, defesas):
+            carta_def.vida =- carta_atk.poder 
+            if carta_def.vida <= 0:
+                Batalha.descarte.extend(carta_def)
+                defesas.remove(carta_def)
+                
+
+                
                     
         else:
             print('não há cartas para jogar')
@@ -129,10 +145,19 @@ class Batalha():
             i+=1
 
 def exibir_campo(campo):
-    print(f'----------------------------')
-    print(f'-[carta]-'* len(campo))
-    print(f'----------------------------')
+    print(f'-----------CAMPO------------')
+    print(''.join(f'[{carta.nome}]-' for carta in campo))
+    print(f'----------------------------\n')
 
+def exibir_ataque(ataque):
+    print(f'----------ATAQUE------------')
+    print(''.join(f'[{carta.nome}]-' for carta in ataque))
+    print(f'----------------------------\n')
+
+def exibir_mao(mao):
+    print(f'-----------MAO--------------')
+    print(''.join(f'[{carta.nome}]-' for carta in mao))
+    print(f'----------------------------\n')
 
 def montar_biblioteca(limite_deck):    
     for carta in range(limite_deck):
@@ -181,14 +206,20 @@ batalha=Batalha(deck_p1, deck_p2)
 while i ==True:    
     batalha.fase_compra(batalha.deck_p1, batalha.mao_p1)
  
-    batalha.mostrar_cartas(batalha.mao_p1)
+    #batalha.mostrar_cartas(batalha.mao_p1)
+    exibir_mao(batalha.mao_p1)
  
     batalha.fase_invocar(batalha.mao_p1, batalha.campo_p1)
    
     exibir_campo(batalha.campo_p1)
-    batalha.mostrar_cartas(batalha.campo_p1)
-    batalha.fase_ataque(batalha.campo_p1)
     
+    exibir_campo(batalha.campo_p2)
+    ataque=batalha.fase_ataque(batalha.campo_p1)
+
+    defesa=batalha.fase_ataque(batalha.campo_p1)
+    batalha.calculo_dano(ataque, defesa)
+    
+    1
     i = False
 
 
