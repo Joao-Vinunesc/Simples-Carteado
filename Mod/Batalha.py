@@ -1,98 +1,51 @@
 import random
+import Jogador as J, Biblioteca_cartas
 
+#--Realmente necessario essa classe?
 class Batalha():
     def __init__(self):
         pass
+Biblioteca_cartas.Carta.montar_biblioteca(20)    
+deck1, deck2=Biblioteca_cartas.Carta.montar_deck()
+jogador1=J.Jogador(deck1)
+jogador2=J.Jogador(deck2)
 
- 
-    def mao_inicial(deck, inicio):
-        selecao=[] 
-            
-        for iten in range(inicio):
-            carta=random.choice(deck)
-            selecao.append(carta)            
-            deck.remove(carta)
-        mao=[]
-        mao.extend(selecao)
-        return mao
+def fase_invocar(jogador):
+    J.Jogador.mostrar_cartas(jogador,jogador.mao)
+    carta=int(input(f'escolha uma carta para jogar ao campo\n'))
+    J.Jogador.invocar_no_campo(jogador, jogador.mao[carta-1])
+    J.Jogador.mostrar_cartas(jogador, jogador.campo)
 
-    def fase_compra(deck, mao):
-        carta = random.choice(deck)
-        mao.append(carta)
-        deck.remove(carta)
-        return carta
+def fase_ataque(jogador):
+    if not jogador.campo:
+        print('não há cartas no campo')
+    carta=int(input('escolha uma carta do campo para atacar'))
+    J.Jogador.selecionar_ataque(jogador)
+    J.Jogador.mostrar_cartas(jogador, jogador.campo)
 
-    def fase_invocar(self, mao, campo):
+
+
+def turno(jogador1, jogador2):
+    contador=1
+    fim_jogo =False
+    while fim_jogo == False:
+        if contador == 1: #se primeiro turno: puxar a mão inicial
+            jogador1.mao=J.Jogador.mao_inicial(jogador1,3)
+            jogador2.mao=J.Jogador.mao_inicial(jogador2,3)
+       
+        #--inicia o turno com o jogador 1
+        jogador1.mostrar_cartas(jogador1.mao)
+        J.Jogador.fase_compra(jogador1)
+        jogador1.mostrar_cartas(jogador1.mao)
+        fase_invocar(jogador1)
+        fase_ataque(jogador1)
         
-        print("--FASE DE INVOCAÇÃO--")
-        i=True        
-        while i==True:
-            #enquanto houver cartas para jogar:
-            if len(mao) > 0:   
+        #-- jogar carta da mao para o campo -?
 
-                escolha=input('Deseja jogar alguma carta para o campo?\n1-SIM\n2-NÃO - encerrar turno')
-                if escolha == "1":
-                    selecao=int(input('jogue uma carta:\n'))
-                    carta=mao[selecao-1]
-                    mao.remove(carta)
-                    campo.append(carta)
+        fim_jogo=True
 
-                else:
-                    print("Encerrando fase de invocação, continuando o jogo...")
-                    i=False   
-            else:
-                print('não há cartas para jogar') 
-                i=False
+    turno_do = jogador1
 
-    def fase_ataque(self, campo):
-        ataque=[]
-        
-        if len(campo) > 0:           
-
-            while True:
-
-
-                if len(campo) == 0: 
-                    print('não há cartas no campo para jogar')
-                    break
-
-                selecao=int(input(f'\nselecione uma carta do CAMPO para atacar:\n'))
-                carta=campo[selecao-1]
-                campo.remove(carta)
-                ataque.append(carta)
-
-
-                escolha=input("confirmar o ataque?\n1-SIM\n2-NÃO")
-                if escolha==2:
-                    break
-                else:
-                    return ataque
-
-    def calculo_dano(self, ataques, defesas):
-        
-        if defesas is None:
-            print("não há cartas para Defesa")
-
-        for carta_atk, carta_def in zip(ataques, defesas):
-            carta_def.vida =- carta_atk.poder 
-            if carta_def.vida <= 0:
-                Batalha.descarte_p2.extend(carta_def)
-                defesas.remove(carta_def)
-                
-
-                
-                    
-        else:
-            print('não há cartas para jogar')
-      
-    def ataque_carta():
-        pass    
     
-    def rodada(deck):
-        pass
-    
-    def mostrar_cartas(self,local):
-        i=1
-        for carta in local:
-            print(f'{i}- {carta.nome} \n|{carta.poder}||{carta.vida}||{carta.efeito}|\n')
-            i+=1
+
+turno(jogador1, jogador2)

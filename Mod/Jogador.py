@@ -19,6 +19,8 @@ class Jogador():
     def mao_inicial(self, inicio):
         mao=[]
         for item in range(inicio):
+            if not self.deck:
+                print("deck vazio")
             carta=random.choice(self.deck)
             mao.append(carta)            
             self.deck.remove(carta)
@@ -43,6 +45,11 @@ class Jogador():
             grupo_ataque.append(carta)
         return(grupo_ataque)
 
-
+    #--Mostra as cartas de um grupo, Nescessario passar o grupo ex: mao_p1|
+    def mostrar_cartas(self,local):
+        i=1
+        for carta in local:
+            print(f'{i}- {carta.nome} \n|{carta.poder}||{carta.vida}||{carta.efeito}|\n')
+            i+=1
 
 
