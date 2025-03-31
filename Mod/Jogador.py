@@ -38,12 +38,25 @@ class Jogador():
     
     #--Seleciona as carta dentro do CAMPO para o ataque | Retorna lista com as cartas para o ataque
     def selecionar_ataque(self):
-        grupo_ataque=[]
-        for carta in self.campo:
-            input(f'Colocar {carta.nome}|{carta.poder}|{carta.vida} no grupo de ataque?')
-            #--Colocar futuramente uma condicional aqui para selecionar quais cartas serão adicionadas
-            grupo_ataque.append(carta)
+        if not self.campo:
+            print('não há cartas no campo')
+        else:
+            grupo_ataque=[]
+            for carta in self.campo:
+                input(f'Colocar {carta.nome}|{carta.poder}|{carta.vida} no grupo de ataque?')
+                #--Colocar futuramente uma condicional aqui para selecionar quais cartas serão adicionadas
+                grupo_ataque.append(carta)
         return(grupo_ataque)
+    
+    def selecionar_defesa(self):
+        if not self.campo: #caso não tenha defesa o ataque é direto ao pv do jogador
+            grupo_defesa = []
+        else: #futuramente colocar opção do defensor escolher quem vai defender.
+            for carta in self.campo:
+                grupo_defesa.append(carta)    
+        return grupo_defesa
+        
+
 
     #--Mostra as cartas de um grupo, Nescessario passar o grupo ex: mao_p1|
     def mostrar_cartas(self,local):

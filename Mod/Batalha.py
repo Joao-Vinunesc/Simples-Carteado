@@ -16,12 +16,24 @@ def fase_invocar(jogador):
     J.Jogador.invocar_no_campo(jogador, jogador.mao[carta-1])
     J.Jogador.mostrar_cartas(jogador, jogador.campo)
 
-def fase_ataque(jogador):
-    if not jogador.campo:
-        print('não há cartas no campo')
-    carta=int(input('escolha uma carta do campo para atacar'))
-    J.Jogador.selecionar_ataque(jogador)
-    J.Jogador.mostrar_cartas(jogador, jogador.campo)
+def calculo_batalha(grupo_ataque,grupo_defesa ):
+    if not grupo_defesa:
+        pass 
+    else:
+        for atacante, defensor in grupo_ataque, grupo_defesa:
+            dano_ao_def= atacante.poder - defensor.poder
+            dano_ao_atk= defensor.poder - atacante.poder
+            #-- a ideia é que tanto o defensor quanto o atacante troquem danos. 
+
+def fase_ataque(jogador_atk, jogador_def):
+    carta=int(input('escolha uma carta do campo para atacar'))    
+    J.Jogador.mostrar_cartas(jogador_atk, jogador_atk.campo)
+
+    grupo_ataque=J.Jogador.selecionar_ataque(jogador_atk)
+    
+    grupo_defesa=J.Jogador.selecionar_defesa(jogador_def)
+
+
 
 
 
