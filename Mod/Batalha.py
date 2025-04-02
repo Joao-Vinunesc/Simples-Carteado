@@ -17,13 +17,43 @@ def fase_invocar(jogador):
     J.Jogador.mostrar_cartas(jogador, jogador.campo)
 
 def calculo_batalha(grupo_ataque,grupo_defesa ):
+    """ problemas:
+        em dados momentos o calculo não é feito de maneira correta gerando interações
+        onde as cartas ganham vida ao inves de perder.
+        as cartas removidas não são removidas de fato do campo do jogador
+        a função é enorme e precisa ser refatorada"""
     if not grupo_defesa:
-        pass 
+        print('não tem cartas no grupo de defesa') 
     else:
-        for atacante, defensor in grupo_ataque, grupo_defesa:
+        for atacante, defensor in zip(grupo_ataque, grupo_defesa):
+            #-- a ideia é que tanto o defensor quanto o atacante troquem danos.
             dano_ao_def= atacante.poder - defensor.poder
+            # 4|5 - 1|1
             dano_ao_atk= defensor.poder - atacante.poder
-            #-- a ideia é que tanto o defensor quanto o atacante troquem danos. 
+
+            if dano_ao_atk <= 0:
+                dano_ao_atk == 0
+            elif dano_ao_def <= 0:
+                dano_ao_def==0   
+            
+            defensor.vida =-dano_ao_def
+            print(f'{atacante.nome}|{atacante.poder}|{atacante.vida} ataca {defensor.nome}|{defensor.poder}|{defensor.vida}')
+            print(f'{atacante.nome}|{atacante.poder}|{atacante.vida} sofreu {dano_ao_atk} de dano')
+            print(f'{defensor.nome}|{defensor.poder}|{defensor.vida} sofreu {dano_ao_def} de dano')
+            atacante.vida= atacante.vida -dano_ao_atk
+            print(f'{atacante.nome} agr possui {atacante.vida}!')
+            print(f'{defensor.nome} agr possui {atacante.vida}!')
+
+            if atacante.vida <= 0:
+                print(f'{atacante.nome} foi destruido')
+                grupo_ataque.remove(atacante)
+            elif defensor.vida <=0:
+                print(f'{defensor.nome} foi destruido')
+                grupo_defesa.remove(defensor)
+                   
+    J.Jogador.mostrar_cartas(grupo_ataque,grupo_ataque)
+    J.Jogador.mostrar_cartas(grupo_defesa,grupo_defesa)
+    print('f')
 
 def fase_ataque(jogador_atk, jogador_def):
     carta=int(input('escolha uma carta do campo para atacar'))    
@@ -33,9 +63,7 @@ def fase_ataque(jogador_atk, jogador_def):
     
     grupo_defesa=J.Jogador.selecionar_defesa(jogador_def)
 
-
-
-
+    calculo_batalha(grupo_ataque, grupo_defesa)
 
 def turno(jogador1, jogador2):
     contador=1
@@ -50,7 +78,7 @@ def turno(jogador1, jogador2):
         J.Jogador.fase_compra(jogador1)
         jogador1.mostrar_cartas(jogador1.mao)
         fase_invocar(jogador1)
-        fase_ataque(jogador1)
+        fase_ataque(jogador1, jogador2)
         
         #-- jogar carta da mao para o campo -?
 
@@ -59,5 +87,8 @@ def turno(jogador1, jogador2):
     turno_do = jogador1
 
     
-
-turno(jogador1, jogador2)
+#---ZONA DE TESTE---#
+grupo_atk=J.Jogador.mao_inicial(jogador1,3)
+grupo_def=J.Jogador.mao_inicial(jogador2,3)
+calculo_batalha(grupo_atk,grupo_def)
+#turno(jogador1, jogador2)
