@@ -23,7 +23,7 @@ class Carta():
             iinome=random.choice(nomesii)
             nome = f"{inome} {iinome}"
             poder=random.choice(range(5))
-            vida=random.choice(range(1,6))
+            vida=random.choice(range(1,6))            
             arte="arte"
             efeito=random.choice(efeitos)
             carta =Carta(nome, poder, vida, efeito, arte) 
