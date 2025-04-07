@@ -31,7 +31,7 @@ class Carta():
     def montar_deck():
         deck_p1=[]
         deck_p2=[]
-        for i in range(6):
+        for i in range(20):
             selecao=random.choice(biblioteca_cartas)
             deck_p1.append(selecao)
 

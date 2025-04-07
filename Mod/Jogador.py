@@ -46,11 +46,13 @@ class Jogador():
                 input(f'Colocar {carta.nome}|{carta.poder}|{carta.vida} no grupo de ataque?')
                 #--Colocar futuramente uma condicional aqui para selecionar quais cartas serão adicionadas
                 grupo_ataque.append(carta)
+                
         return(grupo_ataque)
     
     def selecionar_defesa(self):
+        grupo_defesa = []
         if not self.campo: #caso não tenha defesa o ataque é direto ao pv do jogador
-            grupo_defesa = []
+            print('não há cartas para defesa')
         else: #futuramente colocar opção do defensor escolher quem vai defender.
             for carta in self.campo:
                 grupo_defesa.append(carta)    
